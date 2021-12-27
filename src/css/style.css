@@ -2,3 +2,86 @@
     margin: 0;
     padding: 0;
 }
+
+.posts {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto auto auto;
+    width: 600px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.post {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.post-header {
+    display: flex;
+}
+
+.post-avatar {
+    width: 32px;
+    height: 32px;
+    margin-right: 20px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.post-title {
+
+}
+
+.post-name {
+
+}
+
+.post-time {
+
+}
+
+.post-image {
+
+}
+
+.comments {
+
+}
+
+.comments-title {
+
+}
+
+.comments-list {
+
+}
+
+.comment {
+
+}
+
+.comment-avatar {
+
+}
+
+.comment-content {
+
+}
+
+.comment-header{
+
+}
+
+.comment-name {
+
+}
+
+.comment-time {
+
+}
+
+.comment-text {
+
+}
