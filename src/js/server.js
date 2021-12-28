@@ -33,8 +33,7 @@ export default class Server {
                 const lastComments = comments.slice(comments.length - 10, comments.length);
                 from(lastComments).pipe(
                   take(3),
-                  map((comm) => commentArray.push(comm)),
-                ).subscribe();
+                ).subscribe((comm) => commentArray.push(comm));
                 Post.renderPost(item, commentArray);
               },
               complete: () => console.log('complete comments'),
