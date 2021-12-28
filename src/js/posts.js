@@ -36,7 +36,7 @@ export default class Post {
     commentName.textContent = comment.author;
     commentAvatar.src = comment.avatar;
     commentText.textContent = comment.content;
-    commentTime.textContent = Post.getDate(comment.created);
+    // commentTime.textContent = Post.getDate(comment.created);
 
     const comments = document.querySelector('.comment').cloneNode(true);
     posts.querySelector('.comments-list').appendChild(comments);
