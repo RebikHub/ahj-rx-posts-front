@@ -31,12 +31,12 @@ export default class Post {
     const commentName = document.querySelector('.comment-name');
     const commentAvatar = document.querySelector('.comment-avatar-img');
     const commentText = document.querySelector('.comment-text');
-    // const commentTime = document.querySelector('.comment-time');
+    const commentTime = document.querySelector('.comment-time');
 
     commentName.textContent = comment.author;
     commentAvatar.src = comment.avatar;
     commentText.textContent = comment.content;
-    // commentTime.textContent = Post.getDate(comment.created);
+    commentTime.textContent = Post.getDate(comment.created);
 
     const comments = document.querySelector('.comment').cloneNode(true);
     posts.querySelector('.comments-list').appendChild(comments);
