@@ -5,7 +5,7 @@ import Post from './posts';
 
 export default class Server {
   constructor() {
-    this.url = 'http://localhost:3333/posts/';
+    this.url = 'https://ahj-rx-posts.herokuapp.com/posts/';
   }
 
   // ajaxRxPosts() {
