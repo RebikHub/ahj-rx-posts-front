@@ -9,36 +9,58 @@ export default class Post {
     await this.server.ajaxRxPosts();
   }
 
-  // const post = {
-  // id: id,
-  // author_id: faker.internet.email(),
-  // title: faker.name.title(),
-  // author: faker.internet.userName(),
-  // avatar: faker.internet.avatar(),
-  // image: faker.image.avatar(),
-  // created: faker.time.recent(),
-  // }
-  // const comment = {
-  //     id: uuidv4(),
-  //     post_id: id,
-  //     author_id: faker.internet.email(),
-  //     author: faker.internet.userName(),
-  //     avatar: faker.internet.avatar(),
-  //     content: faker.lorem.text(1),
-  //     created: faker.time.recent(),
+  // static valuePost() {
+  //   return {
+  //     author: 'Alexandr',
+  //     avatar: 'https://img2.akspic.ru/previews/6/3/4/6/6/166436/166436-betmen-supergeroj-komiksy_dc-art-vselennaya_dc-x750.jpg',
+  //     image: 'https://img2.akspic.ru/previews/6/3/4/6/6/166436/166436-betmen-supergeroj-komiksy_dc-art-vselennaya_dc-x750.jpg',
+  //     created: Post.getDate(new Date().getTime()),
+  //   };
   // }
 
-  static render(post, comments) {
-    const posts = document.querySelector('.posts').cloneNode(true);
+  // static valueComment() {
+  //   return {
+  //     author: 'Commentator',
+  //     avatar: 'https://miro.medium.com/max/1400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
+  //     content: 'Ok nice good!!!',
+  //     created: Post.getDate(new Date().getTime()),
+  //   };
+  // }
+
+  static renderPost(post, comments) {
     const postAvatar = document.querySelector('.post-avatar-img');
     const postName = document.querySelector('.post-name');
+    const postTime = document.querySelector('.post-time');
+    const postImage = document.querySelector('.post-img');
 
-
-    postAvatar.src = `${post.avatar}`;
+    postAvatar.src = post.avatar;
     postName.textContent = post.author;
+    postTime.textContent = Post.getDate(post.created);
+    postImage.src = post.image;
+
+    const posts = document.querySelector('.posts').cloneNode(true);
     document.body.appendChild(posts);
-    // console.log(post);
-    // console.log(comments);
+    posts.classList.remove('none');
+
+    for (const i of comments) {
+      Post.renderComments(i, posts);
+    }
+  }
+
+  static renderComments(comment, posts) {
+    const commentName = document.querySelector('.comment-name');
+    const commentAvatar = document.querySelector('.comment-avatar-img');
+    const commentText = document.querySelector('.comment-text');
+    const commentTime = document.querySelector('.comment-time');
+
+    commentName.textContent = comment.author;
+    commentAvatar.src = comment.avatar;
+    commentText.textContent = comment.content;
+    commentTime.textContent = Post.getDate(comment.created);
+
+    const comments = document.querySelector('.comment').cloneNode(true);
+    posts.querySelector('.comments-list').appendChild(comments);
+    comments.classList.remove('none');
   }
 
   static getDate(time) {

@@ -1,28 +1,50 @@
 import { ajax } from 'rxjs/ajax';
+import { map, take } from 'rxjs/operators';
+import { from } from 'rxjs';
 import Post from './posts';
-// import { map } from 'rxjs/operators';
 
 export default class Server {
   constructor() {
     this.url = 'http://localhost:3333/posts/';
-    this.post = null;
-    this.comments = null;
   }
 
-  ajaxRxPosts() {
-    const obs$ = ajax.getJSON(`${this.url}?posts=latest`);
-    const sub = obs$.subscribe((data) => {
-      data.forEach((item) => {
-        const commentsPost = ajax.getJSON(`${this.url}?post_id=${item.id}`);
-        const subComm = commentsPost.subscribe((comm) => {
-          // console.log(item);
-          // console.log(comm);
-          Post.render(item, comm);
-        });
-        setTimeout(() => subComm.unsubscribe(), 2000);
-      });
-    });
+  // ajaxRxPosts() {
+  //   ajax.getJSON(`${this.url}?posts=latest`)
+  //     .subscribe((data) => {
+  //       data.forEach((item) => {
+  //         ajax.getJSON(`${this.url}?post_id=${item.id}`)
+  //           .subscribe((comm) => {
+  //             Post.renderPost(item, comm);
+  //           });
+  //       });
+  //     });
+  // }
 
-    setTimeout(() => sub.unsubscribe(), 5000);
+  ajaxRxPosts() {
+    ajax.getJSON(`${this.url}?posts=latest`).subscribe({
+      next: (posts) => {
+        const lastPosts = posts.slice(posts.length - 10, posts.length);
+        from(lastPosts).pipe(
+          take(10),
+          map((item) => {
+            ajax.getJSON(`${this.url}?post_id=${item.id}`).subscribe({
+              next: (comments) => {
+                const commentArray = [];
+                const lastComments = comments.slice(comments.length - 10, comments.length);
+                from(lastComments).pipe(
+                  take(3),
+                  map((comm) => commentArray.push(comm)),
+                ).subscribe();
+                Post.renderPost(item, commentArray);
+              },
+              complete: () => console.log('complete comments'),
+            });
+          }),
+        ).subscribe({
+          complete: () => console.log('complete posts'),
+        });
+      },
+      complete: () => console.log('complete request'),
+    });
   }
 }
