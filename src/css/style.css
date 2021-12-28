@@ -110,7 +110,8 @@
 }
 
 .comment-time {
-    /* font-size: small; */
+    display: flex;
+    font-size: small;
 }
 
 .comment-text {
