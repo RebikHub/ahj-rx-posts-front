@@ -1,5 +1,3 @@
-// import { interval } from 'rxjs';
-
 export default class Post {
   constructor(server) {
     this.server = server;
@@ -8,24 +6,6 @@ export default class Post {
   async init() {
     await this.server.ajaxRxPosts();
   }
-
-  // static valuePost() {
-  //   return {
-  //     author: 'Alexandr',
-  //     avatar: 'https://img2.akspic.ru/previews/6/3/4/6/6/166436/166436-betmen-supergeroj-komiksy_dc-art-vselennaya_dc-x750.jpg',
-  //     image: 'https://img2.akspic.ru/previews/6/3/4/6/6/166436/166436-betmen-supergeroj-komiksy_dc-art-vselennaya_dc-x750.jpg',
-  //     created: Post.getDate(new Date().getTime()),
-  //   };
-  // }
-
-  // static valueComment() {
-  //   return {
-  //     author: 'Commentator',
-  //     avatar: 'https://miro.medium.com/max/1400/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg',
-  //     content: 'Ok nice good!!!',
-  //     created: Post.getDate(new Date().getTime()),
-  //   };
-  // }
 
   static renderPost(post, comments) {
     const postAvatar = document.querySelector('.post-avatar-img');
