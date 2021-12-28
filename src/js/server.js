@@ -1,5 +1,5 @@
 import { ajax } from 'rxjs/ajax';
-import { map, take } from 'rxjs/operators';
+import { map, take, reduce } from 'rxjs/operators';
 import { from } from 'rxjs';
 import Post from './posts';
 
@@ -7,18 +7,6 @@ export default class Server {
   constructor() {
     this.url = 'https://ahj-rx-posts.herokuapp.com/posts/';
   }
-
-  // ajaxRxPosts() {
-  //   ajax.getJSON(`${this.url}?posts=latest`)
-  //     .subscribe((data) => {
-  //       data.forEach((item) => {
-  //         ajax.getJSON(`${this.url}?post_id=${item.id}`)
-  //           .subscribe((comm) => {
-  //             Post.renderPost(item, comm);
-  //           });
-  //       });
-  //     });
-  // }
 
   ajaxRxPosts() {
     ajax.getJSON(`${this.url}?posts=latest`).subscribe({
@@ -29,12 +17,11 @@ export default class Server {
           map((item) => {
             ajax.getJSON(`${this.url}?post_id=${item.id}`).subscribe({
               next: (comments) => {
-                const commentArray = [];
                 const lastComments = comments.slice(comments.length - 10, comments.length);
                 from(lastComments).pipe(
                   take(3),
-                ).subscribe((comm) => commentArray.push(comm));
-                Post.renderPost(item, commentArray);
+                  reduce((acc, cur) => [...acc, cur], []),
+                ).subscribe((comm) => Post.renderPost(item, comm));
               },
               complete: () => console.log('complete comments'),
             });
