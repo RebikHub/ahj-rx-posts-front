@@ -11,14 +11,12 @@ export default class Server {
   ajaxRxPosts() {
     ajax.getJSON(`${this.url}?posts=latest`).subscribe({
       next: (posts) => {
-        const lastPosts = posts.slice(posts.length - 10, posts.length);
-        from(lastPosts).pipe(
+        from(posts).pipe(
           take(10),
           map((item) => {
             ajax.getJSON(`${this.url}?post_id=${item.id}`).subscribe({
               next: (comments) => {
-                const lastComments = comments.slice(comments.length - 10, comments.length);
-                from(lastComments).pipe(
+                from(comments).pipe(
                   take(3),
                   reduce((acc, cur) => [...acc, cur], []),
                 ).subscribe((comm) => Post.renderPost(item, comm));
